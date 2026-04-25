@@ -438,7 +438,7 @@ void fillRetentionPattern() {
  * @return  true if 100% match (Battery/NVRAM OK), false otherwise.
  */
 bool checkDataRetention() {
-  Serial.println(F("\n[1] Verifying Data Retention (Previous Run)..."));
+  Serial.println(F("\n[1] Verifying Data Retention (Checking for data from previous run)..."));
   
   int matchCount = 0;
   int zeroCount = 0;
@@ -456,14 +456,14 @@ bool checkDataRetention() {
     Serial.print(F("    Found Valid Pattern ("));
     Serial.print(matchCount);
     Serial.println(F(" bytes match)."));
-    Serial.println(F("    >> RETENTION CHECK: [PASS]"));
+    Serial.println(F(">> RETENTION CHECK: [PASS]"));
     return true;
   } 
   else if (zeroCount == RAM_SIZE) {
-    Serial.println(F("    RAM is Empty (All 0x00). First run or battery may be dead."));
+    Serial.println(F("    RAM is Empty (All 0x00)."));
 	Serial.println(F("    If this is the first run, this is expected."));
 	Serial.println(F("    If this is the second run, then the battery may be dead."));
-    Serial.println(F("    >> RETENTION CHECK: [CLEAN]"));
+    Serial.println(F(">> RETENTION CHECK: [CLEAN]"));
     return false;
   } 
   else {
@@ -472,7 +472,7 @@ bool checkDataRetention() {
     Serial.print(F("/"));
     Serial.print(RAM_SIZE);
     Serial.println(F(")."));
-    Serial.println(F("    >> RETENTION CHECK: [UNKNOWN/CORRUPT]"));
+    Serial.println(F(">> RETENTION CHECK: [UNKNOWN/CORRUPT]"));
 	Serial.print(F("    If this is a first run, there may be existing data present."));
     return false;
   }
