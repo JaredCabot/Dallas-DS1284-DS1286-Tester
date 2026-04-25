@@ -88,3 +88,103 @@ The diagnostic sequence follows a strict **"Verify -> Stress -> Clean"** methodo
 *   **GND (Pin 14, 21):** Common Ground.
 *   **RCLR (Pin 24):** To erase User RAM, remove Vcc and pull this pin Low. This does *not* affect time/alarm registers.
 *   **DS1284 Specific:** X1 (Pin 2) and X2 (Pin 3) require a 32.768kHz crystal; VBAT (Pin 25) requires +3V.
+
+---
+
+### **Sample Serial Monitor Output**
+
+### **First Run**
+```
+=== DS1286/DS1284 GENERAL DIAGNOSTIC (v1.0) ===
+>> Hardware Initialized.
+
+[1] Verifying Data Retention (Checking for data from previous run)...
+    RAM is Empty (All 0x00).
+    If this is the first run, this is expected.
+    If this is the second run, then the battery may be dead.
+>> RETENTION CHECK: [CLEAN]
+
+[2] Testing RAM Integrity...
+  >> Pattern 0xFF (11111111): Writing... Verifying... [PASS]
+  >> Pattern 0x00 (00000000): Writing... Verifying... [PASS]
+  >> Pattern 0x55 (01010101): Writing... Verifying... [PASS]
+  >> Pattern 0xAA (10101010): Writing... Verifying... [PASS]
+>> OVERALL RAM STATUS: [PASS]
+
+[3] Filling RAM with Retention Pattern...
+>> RAM Pattern Written.
+
+[4] Oscillator & Time Validation...
+--- Pre-Sync State ---
+Reg 0x09 (Ctrl): 0x01
+Reg 0x0B (Cmd):  0x03
+    Syncing Time...
+    Monitoring Tick (10s)...
+    RTC: 20:36:55.70 [TICK]
+    RTC: 20:36:56.71 [TICK]
+    RTC: 20:36:57.71 [TICK]
+    RTC: 20:36:58.72 [TICK]
+    RTC: 20:36:59.72 [WAIT]
+    RTC: 20:37:00.72 [TICK]
+    RTC: 20:37:01.72 [TICK]
+    RTC: 20:37:02.72 [TICK]
+    RTC: 20:37:03.72 [TICK]
+    RTC: 20:37:04.72 [TICK]
+>> TIME TEST: [PASS]
+
+[5] Testing 1024Hz SQW Output...
+    Integrating over 32 cycles...
+    Avg Period:      968 us
+    Calc Frequency:  1033.06 Hz
+>> SQW TEST: [PASS] (Signal within +/- 5% spec)
+
+>> RAM Primed. (Power cycle Dallas chip now to test retention).
+>> Pull chip from socket for at least 10 seconds.
+```
+
+
+### **Second Run**
+```
+=== DS1286/DS1284 GENERAL DIAGNOSTIC (v1.0) ===
+>> Hardware Initialized.
+
+[1] Verifying Data Retention (Checking for data from previous run)...
+    Found Valid Pattern (50 bytes match).
+>> RETENTION CHECK: [PASS]
+
+[2] Testing RAM Integrity...
+  >> Pattern 0xFF (11111111): Writing... Verifying... [PASS]
+  >> Pattern 0x00 (00000000): Writing... Verifying... [PASS]
+  >> Pattern 0x55 (01010101): Writing... Verifying... [PASS]
+  >> Pattern 0xAA (10101010): Writing... Verifying... [PASS]
+>> OVERALL RAM STATUS: [PASS]
+
+[3] Clearing User RAM (0x00)...
+>> RAM Cleared.
+
+[4] Oscillator & Time Validation...
+--- Pre-Sync State ---
+Reg 0x09 (Ctrl): 0x01
+Reg 0x0B (Cmd):  0x03
+    Syncing Time...
+    Monitoring Tick (10s)...
+    RTC: 20:36:55.40 [TICK]
+    RTC: 20:36:56.41 [TICK]
+    RTC: 20:36:57.41 [TICK]
+    RTC: 20:36:58.42 [TICK]
+    RTC: 20:36:59.42 [TICK]
+    RTC: 20:37:00.42 [TICK]
+    RTC: 20:37:01.42 [TICK]
+    RTC: 20:37:02.42 [TICK]
+    RTC: 20:37:03.42 [TICK]
+    RTC: 20:37:04.42 [TICK]
+>> TIME TEST: [PASS]
+
+[5] Testing 1024Hz SQW Output...
+    Integrating over 32 cycles...
+    Avg Period:      969 us
+    Calc Frequency:  1031.99 Hz
+>> SQW TEST: [PASS] (Signal within +/- 5% spec)
+
+>> ALL SYSTEMS GO. Chip is clean and verified.
+```
