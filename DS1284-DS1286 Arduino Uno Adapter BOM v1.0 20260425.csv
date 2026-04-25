@@ -1,0 +1,12 @@
+Quantity;RefDes;Name;Part Number (Manufacturer);
+1;BT1;HU1632-LF;;
+1;C1;0.1uF Capacitor;;
+1;J1;28-Pin DIP ZIF Socket;;
+1;R1;10K Resistor;;
+2;S1, S2;Standard Tact Switch;B3F-1000 etc;
+2;T1, T2;Test Point;;
+1;X1;232.768kHz Crystal;FKFSREIBM0.032768-T3;"Anything that fits, even a standard metal
+Can watch type crystal soldered SMD"
+1;;6-pin 2.54mm male header;;
+2;;8-pin 2.54mm male header;;
+1;;10-pin 2.54mm male header;;
